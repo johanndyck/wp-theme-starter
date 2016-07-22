@@ -6,11 +6,8 @@ var gulp = require('gulp'),
 		// compass processes our SCSS
 		concat = require('gulp-concat');
 
-var jsSources = [
-	'components/scripts/scripts.js'
-];
-var sassSources = ['components/sass/style.scss'];
-
+var jsSources = ['components/scripts/scripts.js'],
+		sassSources = ['components/sass/style.scss'];
 
 gulp.task('js', function() {
 	gulp.src(jsSources)
@@ -29,3 +26,10 @@ gulp.task('compass', function() {
 	}))
 		.on('error', gutil.log)
 });
+
+gulp.task('watch', function() {
+	gulp.watch(jsSources, ['js'])
+	gulp.watch('components/sass/*.scss', ['compass'])
+});
+
+gulp.task('default', ['js','compass']);
