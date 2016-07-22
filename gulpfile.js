@@ -1,7 +1,17 @@
-var gulp = require('gulp');
+var gulp = require('gulp'),
+		gutil = require('gulp-util'),
+		browserify = require('gulp-browserify'),
+		// browserify let's us import JS libraries like jQuery
+		concat = require('gulp-concat');
 
-gulp.task('default', function(){
+var jsSources = [
+	'components/scripts/scripts.js'
+];
 
-	console.log('default gulp task...')
 
+gulp.task('js', function() {
+	gulp.src(jsSources)
+	.pipe(concat('script.js'))
+	.pipe(browserify())
+	.pipe(gulp.dest('development/js'))
 });
