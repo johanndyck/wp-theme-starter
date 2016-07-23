@@ -4,6 +4,8 @@ var gulp = require('gulp'),
 		// browserify let's us import JS libraries like jQuery
 		compass = require('gulp-compass'),
 		// compass processes our SCSS
+		connect = require('gulp-connect'),
+		// connect lets us run a server
 		concat = require('gulp-concat');
 
 var jsSources = ['components/scripts/scripts.js'],
@@ -14,6 +16,7 @@ gulp.task('js', function() {
 	.pipe(concat('script.js'))
 	.pipe(browserify())
 	.pipe(gulp.dest('development/js'))
+	.pipe(connect.reload())
 });
 
 gulp.task('compass', function() {
@@ -25,6 +28,14 @@ gulp.task('compass', function() {
 		style: 'expanded'
 	}))
 		.on('error', gutil.log)
+	.pipe(connect.reload())
+});
+
+gulp.task('connect', function() {
+	connect.server({
+		root: 'development/',
+		livereload: true
+	});
 });
 
 gulp.task('watch', function() {
@@ -32,4 +43,4 @@ gulp.task('watch', function() {
 	gulp.watch('components/sass/*.scss', ['compass'])
 });
 
-gulp.task('default', ['js','compass']);
+gulp.task('default', ['js','compass', 'watch', 'connect']);
